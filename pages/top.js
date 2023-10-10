@@ -1,6 +1,6 @@
-import clientPromise from "../lib/mongodb";
+import clientPromise from '../lib/mongodb';
 
-export default function Top({ movies }) {
+export default function Top({movies}) {
   return (
     <div>
       <h1>Top 1000 Movies of All Time</h1>
@@ -8,7 +8,7 @@ export default function Top({ movies }) {
         <small>(According to Metacritic)</small>
       </p>
       <ul>
-        {movies.map((movie) => (
+        {movies.map(movie => (
           <li>
             <h2>{movie.title}</h2>
             <h3>{movie.metacritic}</h3>
@@ -21,22 +21,21 @@ export default function Top({ movies }) {
 }
 
 export async function getStaticProps() {
-    try {
-        const client = await clientPromise;
-        const db = client.db("sample_mflix");
+  try {
+    const client = await clientPromise;
+    const db = client.db('sample_mflix');
 
-        const movies = await db
-            .collection("movies")
-            .find({})
-            .sort({ metacritic: -1 })
-            .limit(1000)
-            .toArray();
+    const movies = await db
+      .collection('movies')
+      .find({})
+      .sort({metacritic: -1})
+      .limit(1000)
+      .toArray();
 
-        return {
-            props: { movies: JSON.parse(JSON.stringify(movies)) },
-        };
-    } catch (e) {
-        console.error(e);
-    }
+    return {
+      props: {movies: JSON.parse(JSON.stringify(movies))},
+    };
+  } catch (e) {
+    console.error(e);
+  }
 }
-        
